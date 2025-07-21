@@ -1,0 +1,18 @@
+# Ignore Visual Studio specific files
+.vs/
+*.sln
+*.suo
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+
+# Ignore build artifacts
+bin/
+obj/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore temporary office files
+~$*
