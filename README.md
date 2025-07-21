@@ -21,7 +21,8 @@ This repository contains only the original project files. To run this project, y
 *   **TouchDesigner:** 2023.12370
 *   **Visual Studio:** 2022 Community (with C++ development tools)
     
-### Links
-https://stevenmbenton.com/robotic-arm-control-system/
-https://youtu.be/FgYoJYX6Q9w
-https://youtu.be/poKgKCw8hp4
+### Project Links & Demos
+
+*   **Full Project Write-up:** [stevenmbenton.com/robotic-arm-control-system](https://stevenmbenton.com/robotic-arm-control-system/)
+*   **YouTube Demo:** [Gesture-Controlled 'Pick and Place'](https://youtu.be/poKgKCw8hp4)
+*   **YouTube Demo:** [Pre-programmed Automated Movement](https://youtu.be/FgYoJYX6Q9w)
