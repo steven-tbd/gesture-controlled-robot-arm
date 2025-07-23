@@ -21,6 +21,9 @@ OUTPUT: [Computer/TouchDesigner (Processor/VPL)] ---> (localhost UDP) ---> [Comp
 > 	- A dedicated openFrameworks application (written in C++) handles the low-level communication with the Dynamixel SDK and the U2D2 hardware.
 > - **Half-Duplex TTL Serial:** This is the specific protocol used by Dynamixel servos. The U2D2 controller manages this bus, sending command packets to specific servo IDs and listening for responses.
 
+<img src="touchdesigner-network" alt="touchdesigner network" width="80%"> 
+> Screenshot of Touchdesigner network
+
 ---
 
 ### Hardware Requirements
@@ -38,9 +41,6 @@ OUTPUT: [Computer/TouchDesigner (Processor/VPL)] ---> (localhost UDP) ---> [Comp
 *   **Dynamixel SDK:** ([Download](https://github.com/ROBOTIS-GIT/DynamixelSDK))
 *   **Dynamixel Wizard 2.0:** (For configuring servo IDs)
 *   **R+ Design** 3D guide to construct the Robotis STEM - L2 Robot Arm
-
-<img src="robot-arm.jpg" alt="Image description" width="250"> 
-
 
 ---
 
