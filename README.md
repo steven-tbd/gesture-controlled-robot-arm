@@ -1,7 +1,7 @@
 # Robot Arm Control System
 
 A versatile system for controlling a 4-DOF robot arm using TouchDesigner, OpenFrameworks, and a Leap Motion sensor.
-
+> **YouTube Demo:** [Pre-programmed Automated Movement](https://youtu.be/FgYoJYX6Q9w)
 ## Features
 
 A flexible control system with multiple input modes:
