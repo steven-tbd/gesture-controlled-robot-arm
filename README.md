@@ -21,9 +21,8 @@ OUTPUT: [Computer/TouchDesigner (Processor/VPL)] ---> (localhost UDP) ---> [Comp
 > 	- A dedicated openFrameworks application (written in C++) handles the low-level communication with the Dynamixel SDK and the U2D2 hardware.
 > - **Half-Duplex TTL Serial:** This is the specific protocol used by Dynamixel servos. The U2D2 controller manages this bus, sending command packets to specific servo IDs and listening for responses.
 
-
+__Screenshot of Touchdesigner network__
 <img src="touchdesigner-network.png" alt="touchdesigner network" width="80%"> 
-> - Screenshot of Touchdesigner network
 
 ---
 
