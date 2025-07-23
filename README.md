@@ -39,7 +39,8 @@ OUTPUT: [Computer/TouchDesigner (Processor/VPL)] ---> (localhost UDP) ---> [Comp
 *   **Dynamixel Wizard 2.0:** (For configuring servo IDs)
 *   **R+ Design** 3D guide to construct the Robotis STEM - L2 Robot Arm
 
-![Robotis STEM - L2 Robot Arm](robot-arm.jpg)
+<img src="robot-arm.jpg" alt="Image description" width="250"> 
+
 
 ---
 
