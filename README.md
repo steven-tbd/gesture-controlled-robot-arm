@@ -66,9 +66,13 @@ The `motor-control-system_007.toe` file contains a Python script (`generate_keys
 
 This script provides a fast, data-driven way to create and modify complex choreographies. Instead of manually editing curves in the Animation Editor, you can simply define servo "poses" in a table (`null_table_keys`), and the script will automatically generate the correctly formatted `keys` table to drive the Animation COMP.
 
+> Servo ID Mapping
+<img src="robot-arm.jpg" alt="robotis robot arm" width="30%"> 
+<img src="servo-map.jpg" alt="servo id mapping" width=30%"> 
+
 ---
 
-### Project Links & Demos
+### Project Link & Demos
 
 *   **Project Write-up:** [stevenmbenton.com/robotic-arm-control-system](https://stevenmbenton.com/robotic-arm-control-system/)
 *   **YouTube Demo:** [Gesture-Controlled 'Pick and Place'](https://youtu.be/poKgKCw8hp4)
