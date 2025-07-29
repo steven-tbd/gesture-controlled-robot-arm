@@ -74,6 +74,6 @@ This script provides a fast, data-driven way to create and modify complex choreo
 
 ### Project Link & Demos
 
-*   **Project Write-up:** [stevenmbenton.com/robotic-arm-control-system](https://stevenmbenton.com/robotic-arm-control-system/)
+*   **Project Write-up:** [https://stevenmbenton.com/project/gesture-controlled-robot-arm/](https://stevenmbenton.com/project/gesture-controlled-robot-arm/)
 *   **YouTube Demo:** [Gesture-Controlled 'Pick and Place'](https://youtu.be/poKgKCw8hp4)
 *   **YouTube Demo:** [Pre-programmed Automated Movement](https://youtu.be/FgYoJYX6Q9w)
