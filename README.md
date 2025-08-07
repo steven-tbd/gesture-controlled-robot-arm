@@ -11,15 +11,14 @@ A flexible control system with multiple input modes:
 
 ---
 
-## I/O DIAGRAM
+## IO DIAGRAM
 ```
-INPUT:  [Leap Motion Camera (Sensor)] ---> (USB HID) ---> [Computer/TouchDesigner (Processor/VPL)]
-OUTPUT: [Computer/TouchDesigner (Processor/VPL)] ---> (localhost UDP) ---> [Computer/openFrameworks, Visual Studio (Processor/C++)] ---> (USB Serial) ---> [U2D2 (Motor Control Board)] ---> (Half-Duplex TTL Serial) ---> [4x Dynamixel Servos (Actuator)]
+[Leap Motion Camera (Sensor)] ---> (USB HID) ---> [Computer, TouchDesigner (Processor, VPL)] ---> (localhost UDP) ---> [Computer, openFrameworks (Processor, C++)] ---> (USB Serial) ---> [U2D2 (Motor Control Board)] ---> (Half-Duplex TTL Serial) ---> [4x Dynamixel Servos (Actuator)] 
 ```
-> - **Dual Software Processors:** This workflow uses two software processors on one computer. 
-> 	- TouchDesigner handles the high-level user input and animation logic.
-> 	- A dedicated openFrameworks application (written in C++) handles the low-level communication with the Dynamixel SDK and the U2D2 hardware.
-> - **Half-Duplex TTL Serial:** This is the specific protocol used by Dynamixel servos. The U2D2 controller manages this bus, sending command packets to specific servo IDs and listening for responses.
+>- Development Environment: The C++ openFrameworks application was developed using Visual Studio.
+>- Dual Software Processors (IPC): This workflow uses two software processors on one computer. TouchDesigner handles high-level animation, while the openFrameworks app handles low-level communication with the Dynamixel SDK.
+>- The (localhost UDP) link can be replaced with a (Virtual Serial Port) for a more direct, non-networked connection.
+>- Half-Duplex TTL Serial: The specific protocol used by Dynamixel servos, requiring a single data line for two-way communication, managed by the U2D2 controller.
 
 __Screenshot of Touchdesigner network__
 <img src="touchdesigner-network.png" alt="touchdesigner network" width="80%"> 
