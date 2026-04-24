@@ -1,7 +1,7 @@
-# Gesture-Controlled Robot Arm
+# Robot Arm Control System
 
 A versatile system for controlling a 4-DOF robot arm using TouchDesigner, OpenFrameworks, and a Leap Motion sensor.
-> **YouTube Demo:** [Pre-programmed Automated Movement](https://youtu.be/FgYoJYX6Q9w)
+
 ## Features
 
 A flexible control system with multiple input modes:
@@ -9,19 +9,20 @@ A flexible control system with multiple input modes:
 - **Pre-Programmed Automation:** Using TouchDesigner's Animation COMP for repeatable keyframe sequences.
 - **Manual Slider Control:** A UI for direct control over each servo.
 
+<img src="touchdesigner-network.png" alt="touchdesigner network" width="80%"> 
+
+
 ---
 
-## IO DIAGRAM
+## I/O DIAGRAM
 ```
-[Leap Motion Camera (Sensor)] ---> (USB HID) ---> [Computer, TouchDesigner (Processor, VPL)] ---> (localhost UDP) ---> [Computer, openFrameworks (Processor, C++)] ---> (USB Serial) ---> [U2D2 (Motor Control Board)] ---> (Half-Duplex TTL Serial) ---> [4x Dynamixel Servos (Actuator)] 
+INPUT:  [Leap Motion Camera (Sensor)] ---> (USB HID) ---> [Computer/TouchDesigner (Processor/VPL)]
+OUTPUT: [Computer/TouchDesigner (Processor/VPL)] ---> (localhost UDP) ---> [Computer/openFrameworks, Visual Studio (Processor/C++)] ---> (USB Serial) ---> [U2D2 (Motor Control Board)] ---> (Half-Duplex TTL Serial) ---> [4x Dynamixel Servos (Actuator)]
 ```
->- Development Environment: The C++ openFrameworks application was developed using Visual Studio.
->- Dual Software Processors (IPC): This workflow uses two software processors on one computer. TouchDesigner handles high-level animation, while the openFrameworks app handles low-level communication with the Dynamixel SDK.
->- The (localhost UDP) link can be replaced with a (Virtual Serial Port) for a more direct, non-networked connection.
->- Half-Duplex TTL Serial: The specific protocol used by Dynamixel servos, requiring a single data line for two-way communication, managed by the U2D2 controller.
-
-__Screenshot of Touchdesigner network__
-<img src="touchdesigner-network.png" alt="touchdesigner network" width="80%"> 
+> - **Dual Software Processors:** This workflow uses two software processors on one computer. 
+> 	- TouchDesigner handles the high-level user input and animation logic.
+> 	- A dedicated openFrameworks application (written in C++) handles the low-level communication with the Dynamixel SDK and the U2D2 hardware.
+> - **Half-Duplex TTL Serial:** This is the specific protocol used by Dynamixel servos. The U2D2 controller manages this bus, sending command packets to specific servo IDs and listening for responses.
 
 ---
 
@@ -40,6 +41,7 @@ __Screenshot of Touchdesigner network__
 *   **Dynamixel SDK:** ([Download](https://github.com/ROBOTIS-GIT/DynamixelSDK))
 *   **Dynamixel Wizard 2.0:** (For configuring servo IDs)
 *   **R+ Design** 3D guide to construct the Robotis STEM - L2 Robot Arm
+
 
 ---
 
@@ -65,14 +67,8 @@ The `motor-control-system_007.toe` file contains a Python script (`generate_keys
 
 This script provides a fast, data-driven way to create and modify complex choreographies. Instead of manually editing curves in the Animation Editor, you can simply define servo "poses" in a table (`null_table_keys`), and the script will automatically generate the correctly formatted `keys` table to drive the Animation COMP.
 
-> Servo ID Mapping
-<img src="robot-arm.jpg" alt="robotis robot arm" width="30%"> 
-<img src="servo-map.jpg" alt="servo id mapping" width=30%"> 
-
 ---
 
-### Project Link & Demos
-
-*   **Project Write-up:** [https://stevenmbenton.com/project/gesture-controlled-robot-arm/](https://stevenmbenton.com/project/gesture-controlled-robot-arm/)
+### Project Links & Demos
 *   **YouTube Demo:** [Gesture-Controlled 'Pick and Place'](https://youtu.be/poKgKCw8hp4)
 *   **YouTube Demo:** [Pre-programmed Automated Movement](https://youtu.be/FgYoJYX6Q9w)
