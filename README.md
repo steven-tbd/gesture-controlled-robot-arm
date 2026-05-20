@@ -1,4 +1,4 @@
-# Robot Arm Control System
+# TouchDesigner Robot Arm
 
 A 4-DOF robot arm with three control modes: live gesture control via Leap Motion, pre-programmed keyframe sequences, and a manual slider interface.
 
