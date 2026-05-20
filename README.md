@@ -1,74 +1,76 @@
 # Robot Arm Control System
 
-A versatile system for controlling a 4-DOF robot arm using TouchDesigner, OpenFrameworks, and a Leap Motion sensor.
+A 4-DOF robot arm with three control modes: live gesture control via Leap Motion, pre-programmed keyframe sequences, and a manual slider interface.
 
-## Features
+## Overview
 
-A flexible control system with multiple input modes:
-- **Real-time Gesture Control:** Using a Leap Motion sensor for direct manipulation.
-- **Pre-Programmed Automation:** Using TouchDesigner's Animation COMP for repeatable keyframe sequences.
-- **Manual Slider Control:** A UI for direct control over each servo.
+The system uses a split-stack architecture. TouchDesigner handles gesture input and animation logic at the high level. A dedicated openFrameworks application written in C++ manages low-level communication with the Dynamixel SDK and U2D2 hardware. The two processes run on one computer and exchange data over localhost UDP.
+
+This separation keeps the interaction layer flexible. Control modes can be swapped or extended in TouchDesigner without touching the serial communication code.
+
+## Signal Flow
+
+```
+[Leap Motion] ---> (USB HID) ---> [TouchDesigner]
+[TouchDesigner] ---> (localhost UDP) ---> [openFrameworks / C++] ---> (USB Serial) ---> [U2D2] ---> (Half-Duplex TTL Serial) ---> [4x Dynamixel AX-12A]
+```
+
+**Split-stack architecture.** TouchDesigner runs the control logic and UI. The openFrameworks app acts as a bridge layer: it receives UDP values, validates them, and sends Dynamixel commands. Keeping those responsibilities separate makes each side easier to test and change.
+
+**Half-Duplex TTL Serial.** The U2D2 manages the Dynamixel bus, sending command packets to individual servo IDs and listening for responses. The openFrameworks app handles this through the Dynamixel SDK.
+
+## Control Modes
+
+- **Gesture:** Leap Motion tracks hand position in real time. TouchDesigner maps joint positions to servo targets and streams them over UDP.
+- **Animated:** TouchDesigner's Animation COMP drives repeatable keyframe sequences. A Python script inside the `.toe` file generates the keyframe table from a pose table, so choreography can be defined as data rather than manually edited curves.
+- **Manual:** A slider UI gives direct control over each servo independently.
 
 <img src="touchdesigner-network.png" alt="touchdesigner network" width="80%"> 
 
+## Hardware
 
----
+**Leap Motion Controller** gesture sensor
 
-## I/O DIAGRAM
-```
-INPUT:  [Leap Motion Camera (Sensor)] ---> (USB HID) ---> [Computer/TouchDesigner (Processor/VPL)]
-OUTPUT: [Computer/TouchDesigner (Processor/VPL)] ---> (localhost UDP) ---> [Computer/openFrameworks, Visual Studio (Processor/C++)] ---> (USB Serial) ---> [U2D2 (Motor Control Board)] ---> (Half-Duplex TTL Serial) ---> [4x Dynamixel Servos (Actuator)]
-```
-> - **Dual Software Processors:** This workflow uses two software processors on one computer. 
-> 	- TouchDesigner handles the high-level user input and animation logic.
-> 	- A dedicated openFrameworks application (written in C++) handles the low-level communication with the Dynamixel SDK and the U2D2 hardware.
-> - **Half-Duplex TTL Serial:** This is the specific protocol used by Dynamixel servos. The U2D2 controller manages this bus, sending command packets to specific servo IDs and listening for responses.
+**Robotis U2D2** USB-to-Dynamixel adapter
 
----
+**Dynamixel AX-12A** servos (4)
 
-### Hardware Requirements
+**Robotis Bioloid Frames** for arm structure
 
-*   Leap Motion Controller
-*   Robotis U2D2 Adapter
-*   4x Dynamixel AX-12A Servos
-*   Robotis Bioloid Frames
+## Software
 
-### Software Requirements
+- **TouchDesigner** 2023.12370 or newer
+- **Visual Studio** 2022 Community (with C++ development tools)
+- **openFrameworks** `of_v20241228_vs_64_release` — [Download](https://openframeworks.cc/download/)
+- **Dynamixel SDK** — [Download](https://github.com/ROBOTIS-GIT/DynamixelSDK)
+- **Dynamixel Wizard 2.0** for assigning servo IDs
+- **R+ Design** for the Robotis STEM L2 arm assembly guide
 
-*   **TouchDesigner:** 2023.12370 or newer
-*   **Visual Studio:** 2022 Community (with C++ development tools)
-*   **openFrameworks:** `of_v20241228_vs_64_release` ([Download](https://openframeworks.cc/download/))
-*   **Dynamixel SDK:** ([Download](https://github.com/ROBOTIS-GIT/DynamixelSDK))
-*   **Dynamixel Wizard 2.0:** (For configuring servo IDs)
-*   **R+ Design** 3D guide to construct the Robotis STEM - L2 Robot Arm
+## Setup
 
+### Hardware
 
----
+1. Assemble the arm using the Robotis Bioloid Frames, AX-12A servos, and R+ Design instructions.
+2. Use Dynamixel Wizard 2.0 to assign a unique ID (1, 2, 3, 4) to each servo.
+3. Connect the servos to the U2D2 adapter and plug both the U2D2 and Leap Motion Controller into your computer via USB.
 
-### Setup & Installation
+### Software
 
-#### 1. Hardware Configuration
-1.  **Assemble the Robot Arm:** Build the 4-DOF arm using the Robotis Bioloid Frames, Dynamixel AX-12A servos, and R+ Design instructions.
-2.  **Configure Servo IDs:** Use the Dynamixel Wizard 2.0 software to assign a unique ID (1, 2, 3, 4) to each servo motor.
-3.  **Connect Hardware:** Connect the servos to the U2D2 adapter, and plug the U2D2 and the Leap Motion Controller into your computer via USB.
+1. Install Visual Studio, openFrameworks, and the Dynamixel SDK.
+2. Place the `DynamixelController` folder inside your openFrameworks `apps/myApps/` directory.
+3. Open `DynamixelController.sln` in Visual Studio and build the solution (Ctrl+Shift+B). The compiled `.exe` will appear in the `bin` folder.
 
-#### 2. Software Setup
-1.  **Download Dependencies:** Make sure you have installed Visual Studio, openFrameworks, and the Dynamixel SDK as listed in the sections below.
-2.  **Place Project:** Unzip this repository and place the `DynamixelController` folder inside your openFrameworks `apps/myApps/` directory.
-3.  **Build Project:** Open the `DynamixelController.sln` file in Visual Studio and build the solution (Ctrl+Shift+B). This will create the runnable `.exe` file inside the `bin` folder.
+## Running the System
 
-### Running the System
-1.  **Run the Controller App:** Run the `DynamixelController_debug.exe` file located in the `DynamixelController/bin` folder.
-2.  **Run TouchDesigner:** Open the `touchdesigner/motor-control-system_007.toe` file.
-3.  **Interact:** Use the buttons in the TouchDesigner network to switch between the different control modes.
+1. Run `DynamixelController_debug.exe` from the `DynamixelController/bin` folder.
+2. Open `touchdesigner/motor-control-system_007.toe`.
+3. Use the mode buttons in the TouchDesigner network to switch between gesture, animated, and manual control.
 
-#### Note: Python Script for Keyframe Generation
-The `motor-control-system_007.toe` file contains a Python script (`generate_keys_script`) designed to automate the creation of keyframe animations.
+## Keyframe Generation
 
-This script provides a fast, data-driven way to create and modify complex choreographies. Instead of manually editing curves in the Animation Editor, you can simply define servo "poses" in a table (`null_table_keys`), and the script will automatically generate the correctly formatted `keys` table to drive the Animation COMP.
+The `.toe` file includes a Python script called `generate_keys_script`. It reads servo poses from the `null_table_keys` table and generates the correctly formatted `keys` table that drives the Animation COMP. Defining poses as table rows is faster than editing animation curves by hand and makes it straightforward to rearrange or extend a sequence.
 
----
+## Demos
 
-### Project Links & Demos
-*   **YouTube Demo:** [Gesture-Controlled 'Pick and Place'](https://youtu.be/poKgKCw8hp4)
-*   **YouTube Demo:** [Pre-programmed Automated Movement](https://youtu.be/FgYoJYX6Q9w)
+- [Gesture-Controlled Pick and Place](https://youtu.be/poKgKCw8hp4)
+- [Pre-Programmed Automated Movement](https://youtu.be/FgYoJYX6Q9w)
